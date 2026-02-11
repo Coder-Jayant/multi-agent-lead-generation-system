@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🤖 LeadGen AI Agent - Premium</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #1a202c;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.8), rgba(118, 75, 162, 0.8));
+            padding: 30px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .header h1 {
+            color: white;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 14px;
+        }
+
+        .tabs {
+            display: flex;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 10px 30px;
+            gap: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .tab {
+            padding: 12px 24px;
+            background: transparent;
+            border: none;
+            color: rgba(255, 255, 255, 0.7);
+            cursor: pointer;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .tab:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .tab.active {
+            background: rgba(255, 255, 255, 0.25);
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .tab-content {
+            display: none;
+            padding: 30px;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.25);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid rgba(102, 126, 234, 0.2);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.8);
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .btn {
+            padding: 14px 28px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
+        }
+
+        .split-layout {
+            display: flex;
+            gap: 20px;
+            height: calc(100vh - 300px);
+        }
+
+        .left-pane {
+            flex: 0 0 450px;
+            overflow-y: auto;
+        }
+
+        .right-pane {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .log-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .log-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            font-family: 'Consolas', monospace;
+            font-size: 13px;
+        }
+
+        details {
+            margin: 10px 0;
+            border-left: 3px solid #667eea;
+            padding-left: 15px;
+            background: rgba(102, 126, 234, 0.05);
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        details[open] {
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        summary {
+            cursor: pointer;
+            padding: 10px;
+            font-weight: 600;
+            color: #667eea;
+            user-select: none;
+        }
+
+        summary:hover {
+            color: #764ba2;
+        }
+
+        .lead-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .lead-card:hover {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transform: translateX(5px);
+        }
+
+        .score-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 12px;
+        }
+
+        .score-high {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+        }
+
+        .score-medium {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.4s ease;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🤖 LeadGen AI Agent</h1>
+            <p>MongoDB-Powered Lead Discovery & Qualification Platform</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('products')">📦 Products</button>
+            <button class="tab" onclick="switchTab('generate')">🚀 Generate Leads</button>
+            <button class="tab" onclick="switchTab('leads')">📊 View Leads</button>
+        </div>
+
+        <!-- Products Tab -->
+        <div id="products" class="tab-content active">
+            <div class="glass-card">
+                <h2 style="margin-bottom: 20px;">Create New Product</h2>
+                <div class="form-group">
+                    <label>Product Name</label>
+                    <input type="text" id="product-name" placeholder="e.g., AI Email Assistant">
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="product-desc"
+                        placeholder="Detailed product description for lead generation..."></textarea>
+                </div>
+
+                <!-- Advanced Product Details (POC Features) -->
+                <details style="margin: 15px 0;">
+                    <summary style="color: #667eea; cursor: pointer; font-weight: 600;">📋 Advanced Product Details
+                        (Optional)</summary>
+                    <div style="padding: 15px 0;">
+                        <div class="form-group">
+                            <label>Your Company Name</label>
+                            <input type="text" id="company-name" placeholder="e.g., Acme Corp">
+                        </div>
+                        <div class="form-group">
+                            <label>Company Website</label>
+                            <input type="text" id="website-url" placeholder="https://yourcompany.com">
+                        </div>
+                        <div class="form-group">
+                            <label>Target Industries</label>
+                            <input type="text" id="target-industries" placeholder="e.g., SaaS, E-commerce, Healthcare">
+                        </div>
+                        <div class="form-group">
+                            <label>Target Regions</label>
+                            <input type="text" id="target-regions" placeholder="e.g., North America, EMEA, APAC">
+                        </div>
+                        <div class="form-group">
+                            <label>Target Personas (select multiple)</label>
+                            <select id="target-personas" multiple style="min-height: 100px;">
+                                <option value="C-Level">C-Level (CEO, CTO, CFO, CMO, COO)</option>
+                                <option value="VP/Director">VP/Director Level</option>
+                                <option value="Manager">Manager Level</option>
+                                <option value="Founder/Owner">Founder/Owner</option>
+                            </select>
+                            <small style="color: #666; display: block; margin-top: 5px;">Hold Ctrl/Cmd to select
+                                multiple</small>
+                        </div>
+                    </div>
+                </details>
+
+                <button class="btn" onclick="createProduct()">Create Product</button>
+            </div>
+            <div id="products-list"></div>
+        </div>
+
+        <!-- Generate Tab -->
+        <div id="generate" class="tab-content">
+            <div class="split-layout">
+                <div class="left-pane">
+                    <div class="glass-card">
+                        <h3 style="margin-bottom: 20px;">Lead Generation Settings</h3>
+                        <div class="form-group">
+                            <label>Select Product</label>
+                            <select id="gen-product">
+                                <option value="">-- Choose --</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Target Count</label>
+                            <input type="number" id="gen-target" value="2" min="1" max="50">
+                        </div>
+                        <div class="form-group">
+                            <label>Additional Context</label>
+                            <textarea id="gen-context" placeholder="Optional targeting preferences..."></textarea>
+                        </div>
+                        <div style="display: flex; gap: 10px;">
+                            <button class="btn" id="start-btn" onclick="startGeneration()">🚀 Start</button>
+                            <button class="btn btn-danger" id="stop-btn" style="display:none;"
+                                onclick="stopGeneration()">🛑 Stop</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="right-pane">
+                    <div class="log-header">📊 Live Agent Activity</div>
+                    <div class="log-content" id="agent-log">
+                        <div style="text-align: center; padding: 60px 20px; color: #94a3b8;">
+                            <div style="font-size: 64px;">🤖</div>
+                            <div style="font-size: 18px; font-weight: 600; margin-top: 10px;">Agent Ready</div>
+                            <div style="font-size: 14px; margin-top: 5px;">Click "Start" to begin lead generation</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Leads Tab -->
+        <div id="leads" class="tab-content">
+            <div class="glass-card">
+                <h2 style="margin-bottom: 20px;">Generated Leads</h2>
+                <div style="display: flex; gap: 15px; margin-bottom: 20px; flex-wrap: wrap;">
+                    <select id="product-filter" style="flex: 1; min-width: 200px;">
+                        <option value="">All Products</option>
+                    </select>
+                    <input type="number" id="min-score" placeholder="Min Score" value="0" style="width: 150px;">
+                    <button class="btn" onclick="loadLeads()">🔄 Refresh</button>
+                </div>
+                <div id="leads-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentEventSource = null;
+
+        function switchTab(tab) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById(tab).classList.add('active');
+
+            if (tab === 'products') loadProducts();
+            if (tab === 'generate') loadProductsForGenerate();
+            if (tab === 'leads') {
+                loadProductFilter();  // Populate product dropdown
+                loadLeads();
+            }
+        }
+
+        async function createProduct() {
+            const name = document.getElementById('product-name').value;
+            const description = document.getElementById('product-desc').value;
+
+            // Get advanced fields
+            const companyName = document.getElementById('company-name').value;
+            const websiteUrl = document.getElementById('website-url').value;
+            const targetIndustries = document.getElementById('target-industries').value;
+            const targetRegions = document.getElementById('target-regions').value;
+
+            // Get selected personas
+            const personasSelect = document.getElementById('target-personas');
+            const targetPersonas = Array.from(personasSelect.selectedOptions).map(opt => opt.value);
+
+            const res = await fetch('/api/products', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    name,
+                    description,
+                    company_name: companyName,
+                    website_url: websiteUrl,
+                    target_personas: targetPersonas,
+                    industries: targetIndustries.split(',').map(x => x.trim()).filter(x => x),
+                    regions: targetRegions.split(',').map(x => x.trim()).filter(x => x)
+                })
+            });
+
+            if (res.ok) {
+                alert('Product created!');
+                // Clear form
+                document.getElementById('product-name').value = '';
+                document.getElementById('product-desc').value = '';
+                document.getElementById('company-name').value = '';
+                document.getElementById('website-url').value = '';
+                document.getElementById('target-industries').value = '';
+                document.getElementById('target-regions').value = '';
+                personasSelect.selectedIndex = -1;
+                loadProducts();
+            }
+        }
+
+        async function loadProducts() {
+            const res = await fetch('/api/products');
+            const data = await res.json();
+            const products = data.products || data; // Handle both {products: [...]} and [...]
+            const list = document.getElementById('products-list');
+            list.innerHTML = products.map(p => `
+                <div class="glass-card fade-in">
+                    <h3>${p.name}</h3>
+                    <p>${p.description}</p>
+                </div>
+            `).join('');
+        }
+
+        async function loadProductsForGenerate() {
+            const res = await fetch('/api/products');
+            const data = await res.json();
+            const products = data.products || data;
+            const select = document.getElementById('gen-product');
+            select.innerHTML = '<option value="">-- Choose --</option>' +
+                products.map(p => `<option value="${p.id}">${p.name}</option>`).join('');
+        }
+
+        async function startGeneration() {
+            const productId = document.getElementById('gen-product').value;
+            const target = document.getElementById('gen-target').value;
+            const context = document.getElementById('gen-context').value;
+
+            if (!productId) return alert('Select a product');
+
+            const res = await fetch(`/api/products/${productId}`);
+            const product = await res.json();
+
+            document.getElementById('start-btn').style.display = 'none';
+            document.getElementById('stop-btn').style.display = 'block';
+
+            const log = document.getElementById('agent-log');
+            log.innerHTML = '<div style="color: #10b981; font-weight: 600;">🚀 Starting generation...</div>';
+
+            let desc = product.description;
+            if (context) desc += `\n\n${context}`;
+
+            // Build URL with product context
+            let url = `/api/generate/stream?product_description=${encodeURIComponent(desc)}&target_count=${target}`;
+            url += `&product_id=${encodeURIComponent(productId)}`;
+            url += `&product_name=${encodeURIComponent(product.name)}`;
+
+            currentEventSource = new EventSource(url);
+
+            let stepCount = 0;
+
+            currentEventSource.addEventListener('step', (e) => {
+                const data = JSON.parse(e.data);
+                stepCount++;
+                log.innerHTML += `
+                    <details class="fade-in">
+                        <summary>🔵 Step ${stepCount}: ${data.step} - ${(data.message || '').substring(0, 60)}...</summary>
+                        <div style="padding: 10px; background: #f3f4f6; border-radius: 5px; margin-top: 5px;">
+                            <div><strong>Type:</strong> ${data.step}</div>
+                            ${data.tool ? `<div><strong>Tool:</strong> ${data.tool}</div>` : ''}
+                            <div style="margin-top: 5px;"><strong>Details:</strong><br>${data.message || ''}</div>
+                        </div>
+                    </details>
+                `;
+                log.scrollTop = log.scrollHeight;
+            });
+
+            currentEventSource.addEventListener('observation', (e) => {
+                const data = JSON.parse(e.data);
+                const obs = data.observation || '';
+                log.innerHTML += `
+                    <details class="fade-in">
+                        <summary style="color: #10b981;">👁️ Observation: ${obs.substring(0, 50)}...</summary>
+                        <div style="padding: 10px; background: #d1fae5; border-radius: 5px; margin-top: 5px; white-space: pre-wrap;">${obs}</div>
+                    </details>
+                `;
+                log.scrollTop = log.scrollHeight;
+            });
+
+            currentEventSource.addEventListener('lead', (e) => {
+                const lead = JSON.parse(e.data);
+                log.innerHTML += `
+                    <details open class="fade-in" style="border-left-color: #10b981;">
+                        <summary style="color: #10b981; font-weight: 700;">✅ Lead: ${lead.name}</summary>
+                        <div style="padding: 10px; background: #f0fdf4; border-radius: 5px; margin-top: 5px;">
+                            <div><strong>Domain:</strong> <a href="https://${lead.domain}" target="_blank">${lead.domain}</a></div>
+                            <div><strong>Description:</strong> ${(lead.description || '').substring(0, 150)}...</div>
+                        </div>
+                    </details>
+                `;
+                log.scrollTop = log.scrollHeight;
+            });
+
+            currentEventSource.addEventListener('complete', (e) => {
+                const data = JSON.parse(e.data);
+                const leadsFound = data.total_leads || data.quality_saved || data.total_found || 0;
+                log.innerHTML += `
+                    <div class="fade-in" style="color: #10b981; padding: 20px; background: #d1fae5; border-radius: 10px; margin: 10px 0; font-weight: 600; text-align: center;">
+                        🎉 Complete! ${leadsFound} leads generated
+                    </div>
+                `;
+                currentEventSource.close();
+                document.getElementById('start-btn').style.display = 'block';
+                document.getElementById('stop-btn').style.display = 'none';
+                log.scrollTop = log.scrollHeight;
+            });
+
+            currentEventSource.addEventListener('error', () => {
+                log.innerHTML += `<div class="fade-in" style="color: #ef4444; padding: 15px; background: #fee2e2; border-radius: 10px; margin: 10px 0;">❌ Error occurred</div>`;
+                currentEventSource.close();
+                document.getElementById('start-btn').style.display = 'block';
+                document.getElementById('stop-btn').style.display = 'none';
+            });
+        }
+
+        async function stopGeneration() {
+            await fetch('/api/generate/cancel', { method: 'POST' });
+            if (currentEventSource) currentEventSource.close();
+            document.getElementById('agent-log').innerHTML += `<div class="fade-in" style="color: #ef4444; padding: 15px; background: #fee2e2; border-radius: 10px; margin: 10px 0;">🛑 Generation cancelled</div>`;
+            document.getElementById('start-btn').style.display = 'block';
+            document.getElementById('stop-btn').style.display = 'none';
+        }
+
+        async function loadLeads() {
+            const minScore = document.getElementById('min-score').value || 0;
+            const productFilter = document.getElementById('product-filter').value;
+
+            let url = `/api/mongodb/leads?min_score=${minScore}`;
+            if (productFilter) {
+                url += `&product_name=${encodeURIComponent(productFilter)}`;
+            }
+
+            const res = await fetch(url);
+            const data = await res.json();
+            const list = document.getElementById('leads-list');
+
+            if (!data.leads || data.leads.length === 0) {
+                list.innerHTML = '<div style="text-align: center; padding: 40px; color: #94a3b8;">No leads found. Generate some first!</div>';
+                return;
+            }
+
+            list.innerHTML = data.leads.map(lead => {
+                // Email confidence HTML
+                let emailsHTML = '';
+                if (lead.email_details && lead.email_details.length > 0) {
+                    const source = lead.email_source === 'scraped' ? '🌐 Found on Website' : '🔮 Auto-Generated';
+                    emailsHTML = `
+                        <div style="margin-top: 15px;">
+                            <div style="font-size: 12px; color: #6b7280; margin-bottom: 8px;">${source}</div>
+                            ${lead.email_details.map(detail => {
+                        const badgeColor = detail.confidence >= 90 ? '#10b981' :
+                            detail.confidence >= 70 ? '#3b82f6' : '#f59e0b';
+                        const badgeLabel = detail.confidence >= 90 ? 'SMTP Verified' :
+                            detail.confidence >= 70 ? 'DNS Validated' : 'DNS Only';
+                        return `
+                                    <div style="margin: 8px 0; padding: 8px; background: #f9fafb; border-radius: 6px;">
+                                        <code style="font-size: 13px;">${detail.email}</code>
+                                        <span style="display: inline-block; margin-left: 10px; padding: 2px 8px; background: ${badgeColor}; color: white; border-radius: 12px; font-size: 11px; font-weight: 600;">
+                                            ${detail.confidence}% ${badgeLabel}
+                                        </span>
+                                    </div>
+                                `;
+                    }).join('')}
+                        </div>
+                    `;
+                } else if (lead.emails?.length) {
+                    emailsHTML = `<div style="margin-top: 10px; font-size: 13px;"><strong>Emails:</strong> ${lead.emails.map(e => e.email || e).join(', ')}</div>`;
+                }
+
+                return `
+                    <div class="lead-card fade-in">
+                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 15px;">
+                            <div>
+                                <h3 style="margin-bottom: 5px;">${lead.name}</h3>
+                                <a href="${lead.url}" target="_blank" style="color: #667eea; text-decoration: none;">${lead.domain}</a>
+                            </div>
+                            <span class="score-badge ${lead.qualification?.score >= 65 ? 'score-high' : 'score-medium'}">
+                                Score: ${lead.qualification?.score || 0}/100
+                            </span>
+                        </div>
+                        <p style="color: #4b5563; margin-bottom: 10px;">${lead.description}</p>
+                        ${lead.qualification?.reasoning ? `<p style="font-size: 13px; color: #6b7280; font-style: italic;">💡 ${lead.qualification.reasoning}</p>` : ''}
+                        ${emailsHTML}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        async function loadProductFilter() {
+            try {
+                const res = await fetch('/api/leads/products');
+                const data = await res.json();
+                const select = document.getElementById('product-filter');
+
+                if (data.products && data.products.length > 0) {
+                    const options = data.products.map(p => {
+                        // Handle null/undefined product names better
+                        let displayName;
+                        if (p.product_name) {
+                            displayName = p.product_name;
+                        } else if (p.product_id && p.product_id !== 'default') {
+                            displayName = p.product_id;
+                        } else {
+                            displayName = 'Default Product';
+                        }
+                        return `<option value="${displayName}">${displayName} (${p.lead_count} leads)</option>`;
+                    }).join('');
+                    select.innerHTML = '<option value="">All Products</option>' + options;
+                }
+            } catch (e) {
+                console.error('Failed to load product filter:', e);
+            }
+        }
+
+        // Load products on page load
+        loadProducts();
+    </script>
+</body>
+
+</html>

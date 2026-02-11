@@ -1,0 +1,26 @@
+# LangChain & LangGraph
+# langgraph
+# langchain-core==0.1.45
+# langchain-openai==0.1.8
+
+# FastAPI & Web
+# fastapi==0.110.0
+# uvicorn[standard]==0.29.0
+pydantic==2.6.4
+
+# HTTP & Utilities
+# requests==2.31.0
+tldextract==5.1.2
+python-dotenv==1.0.1
+
+# MongoDB
+motor==3.3.2
+pymongo==4.6.1
+dnspython==2.4.2
+
+# Testing
+pytest==7.4.3
+pytest-asyncio==0.21.1
+
+# Optional: For better logging
+colorlog==6.8.2
